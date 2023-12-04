@@ -1,0 +1,77 @@
+name: corewar
+
+env:
+  EXECUTABLES: "./asm/asm corewar/corewar"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+    check_coding_style:
+      name: check coding style
+      runs-on: ubuntu-latest
+      container:
+          image: ghcr.io/epitech/coding-style-checker:latest
+      steps:
+          - name: Checkout
+            uses: actions/checkout@v3
+
+          - name: get coding-style errors
+            id: check_coding_style
+            run: |
+              check.sh $(pwd) $(pwd)
+              while read ERROR; do
+                filename=$(echo $ERROR | cut -d ':' -f 1 | cut -d '/' -f 2)
+                line=$(echo $ERROR | cut -d ':' -f 2)
+                gravity=$(echo $ERROR | awk -F ':' '{print $3}')
+                error=$(echo $ERROR | awk -F ':' '{print $4}')
+                echo "::error file=$filename,line=$line,title=$gravity coding style error::$error"
+              done < coding-style-reports.log
+              if [ -s coding-style-reports.log ]
+              then
+                exit 1
+              fi
+
+    check_banned_functions:
+      needs: check_coding_style
+      name: check banned functions
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+
+        - name: Running check job
+          id: check_banned
+          run: |
+            make check_banned_git
+
+    check_program_compilation:
+      needs: check_banned_functions
+      name: check program compilation
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+
+        - name: build project
+          id: make_project
+          timeout-minutes: 2
+          run: |
+            make
+
+        - name: clean project
+          id: clean_project
+          run: |
+            make clean
+
+        - name: check executables
+          id: check_executables
+          run: |
+            for executable in $EXECUTABLES; do
+              if [ ! -f $executable ]; then
+                echo "::error file=Makefile,line=1,title=Compilation error::$executable not found"
+                exit 1
+              fi
+            done
