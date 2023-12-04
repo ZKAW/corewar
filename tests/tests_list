@@ -1,0 +1,25 @@
+invalid_file1 invalid_file2 ?
+./cor/42.cor ./cor/abel.cor -dump 1
+./cor/42.cor ./cor/abel.cor -dump 999 ?
+./cor/42.cor ./cor/abel.cor ./cor/ebola.cor
+-n 1 ./cor/42.cor -n 5 ./cor/abel.cor ./cor/pdd.cor -dump 1 ?
+./cor/42.cor ./cor/abel.cor ./cor/ebola.cor -dump 10
+-n 1 ./cor/42.cor -n 3 ./cor/abel.cor ./cor/pdd.cor
+-n 2 ./cor/42.cor -n 2 ./cor/abel.cor ./cor/pdd.cor ?
+./cor/42.cor ./cor/abel.cor ./cor/bill.cor ./cor/ebola.cor ./cor/pdd.cor ?
+./cor/pdd.cor ./cor/ebola.cor
+-a 32 ./cor/42.cor -a 64 -n 4 ./cor/abel.cor ?
+-a 500 ./cor/42.cor ./cor/abel.cor -dump 500
+-a 500 ./cor/42.cor ./cor/abel.cor
+-a 0 ./cor/42.cor ./cor/abel.cor
+./cor/42.cor ./cor/pdd.cor -a 12 ./cor/ebola.cor
+./cor/pdd.cor ./cor/pdd.cor
+./cor/pdd.cor ./cor/pdd.cor -dump 40
+./cor/42.cor ./cor/pdd.cor ./cor/pdd.cor -dump 5
+./cor/42.cor ./cor/pdd.cor ./cor/pdd.cor
+./cor/ebola.cor ./cor/abel.cor
+./cor/ebola.cor ./cor/abel.cor ./cor/bill.cor
+./cor/tyron.cor ./cor/abel.cor ./cor/bill.cor
+./cor/tyron.cor ./cor/42.cor
+./cor/tyron.cor ./cor/ebola.cor
+./cor/tyron.cor ./cor/pdd.cor
